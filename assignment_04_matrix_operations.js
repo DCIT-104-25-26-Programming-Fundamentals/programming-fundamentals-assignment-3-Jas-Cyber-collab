@@ -70,3 +70,166 @@
 
 const readlineSync = require('readline-sync');
 
+```javascript
+const readlineSync = require("readline-sync");
+
+function readMatrix(rows, columns, name) {
+    const matrix = [];
+
+    console.log(`\nEnter values for Matrix ${name}:`);
+
+    for (let i = 0; i < rows; i++) {
+        const rowInput = readlineSync.question(`Enter row ${i + 1}: `);
+        const row = rowInput.split(" ").map(Number);
+
+        matrix.push(row);
+    }
+
+    return matrix;
+}
+
+function transposeMatrix(matrix) {
+    const rows = matrix.length;
+    const columns = matrix[0].length;
+    const transpose = [];
+
+    for (let j = 0; j < columns; j++) {
+        const newRow = [];
+
+        for (let i = 0; i < rows; i++) {
+            newRow.push(matrix[i][j]);
+        }
+
+        transpose.push(newRow);
+    }
+
+    return transpose;
+}
+
+function addMatrices(matrixA, matrixB) {
+    const rows = matrixA.length;
+    const columns = matrixA[0].length;
+    const result = [];
+
+    for (let i = 0; i < rows; i++) {
+        const row = [];
+
+        for (let j = 0; j < columns; j++) {
+            row.push(matrixA[i][j] + matrixB[i][j]);
+        }
+
+        result.push(row);
+    }
+
+    return result;
+}
+
+function multiplyMatrices(matrixA, matrixB) {
+    const rowsA = matrixA.length;
+    const columnsA = matrixA[0].length;
+    const columnsB = matrixB[0].length;
+    const result = [];
+
+    for (let i = 0; i < rowsA; i++) {
+        const row = [];
+
+        for (let j = 0; j < columnsB; j++) {
+            let sum = 0;
+
+            for (let k = 0; k < columnsA; k++) {
+                sum += matrixA[i][k] * matrixB[k][j];
+            }
+
+            row.push(sum);
+        }
+
+        result.push(row);
+    }
+
+    return result;
+}
+
+function displayMatrix(matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+        let row = "";
+
+        for (let j = 0; j < matrix[i].length; j++) {
+            row += matrix[i][j] + "\t";
+        }
+
+        console.log(row);
+    }
+}
+
+function main() {
+    // Part A: Transpose a Matrix
+    console.log("PART A — TRANSPOSE A MATRIX");
+
+    const rowsA = readlineSync.questionInt("Enter number of rows: ");
+    const columnsA = readlineSync.questionInt("Enter number of columns: ");
+
+    const matrixA = readMatrix(rowsA, columnsA, "A");
+
+    const transposed = transposeMatrix(matrixA);
+
+    console.log("\nOriginal Matrix:");
+    displayMatrix(matrixA);
+
+    console.log("\nTransposed Matrix:");
+    displayMatrix(transposed);
+
+
+    // Part B: Add Two Matrices
+    console.log("\nPART B — ADD TWO MATRICES");
+
+    const rowsB = readlineSync.questionInt("Enter number of rows: ");
+    const columnsB = readlineSync.questionInt("Enter number of columns: ");
+
+    const matrixB1 = readMatrix(rowsB, columnsB, "A");
+    const matrixB2 = readMatrix(rowsB, columnsB, "B");
+
+    const sum = addMatrices(matrixB1, matrixB2);
+
+    console.log("\nMatrix A:");
+    displayMatrix(matrixB1);
+
+    console.log("\nMatrix B:");
+    displayMatrix(matrixB2);
+
+    console.log("\nSum of Matrices:");
+    displayMatrix(sum);
+
+
+    // Part C: Multiply Two Matrices
+    console.log("\nPART C — MULTIPLY TWO MATRICES");
+
+    const rowsC1 = readlineSync.questionInt("Enter rows for Matrix A: ");
+    const columnsC1 = readlineSync.questionInt("Enter columns for Matrix A: ");
+
+    const rowsC2 = readlineSync.questionInt("Enter rows for Matrix B: ");
+    const columnsC2 = readlineSync.questionInt("Enter columns for Matrix B: ");
+
+    if (columnsC1 !== rowsC2) {
+        console.log(
+            "Error: The number of columns in Matrix A must equal the number of rows in Matrix B."
+        );
+        return;
+    }
+
+    const matrixC1 = readMatrix(rowsC1, columnsC1, "A");
+    const matrixC2 = readMatrix(rowsC2, columnsC2, "B");
+
+    const product = multiplyMatrices(matrixC1, matrixC2);
+
+    console.log("\nMatrix A:");
+    displayMatrix(matrixC1);
+
+    console.log("\nMatrix B:");
+    displayMatrix(matrixC2);
+
+    console.log("\nProduct of Matrices (A x B):");
+    displayMatrix(product);
+}
+
+main();
+```
